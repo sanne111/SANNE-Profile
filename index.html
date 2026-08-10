@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sanne的个人主页</title>
+    <link rel="icon" type="image/x-icon" href="./icon/web-icon.gif">
+    <meta name="description" content="简约、温柔、带一点《孤独摇滚》气息的个人主页。" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/css/APlayer.min.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-grid"></div>
+
+    <nav class="topbar">
+      <div class="brand">SANNE</div>
+      <div class="nav-links">
+        <a href="#about">关于我</a>
+        <a href="#contact">联系方式</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero__content hero--center">
+        <div class="hero-left">
+          <div class="hero-centered-avatar">
+            <div class="profile-card glass-card hero-avatar" id="heroAvatar">
+              <img src="icon/Avatar.png" alt="头像" class="avatar-image" />
+            </div>
+            <div class="social-row" aria-hidden="false">
+              <a href="mailto:114514sanne@gmail.com" title="Email"><img src="./icon/email.png" alt="Email" width="24" height="24" /></a>
+              <a href="https://github.com/sanne111" title="GitHub"><img src="./icon/github.svg" alt="GitHub" width="24" height="24" /></a>
+              <a href="https://user.qzone.qq.com/3494360936" title="QQ"><img src="./icon/qq.svg" alt="QQ" width="24" height="24" /></a>
+              <a href="https://x.com/sanne1145" title="Twitter"><img src="./icon/twitter-x.svg" alt="Twitter" width="24" height="24" /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-overlay">
+        <div class="title-stamp">SANNE の 的个人主页</div>
+      </div>
+
+      <div class="chat-bubble" id="chatBubble" aria-live="polite">
+        <div class="chat-avatar">🍊</div>
+        <div class="chat-text">如果你累了，就喝杯橘子汁吧。</div>
+        <button class="chat-close" id="chatClose">✕</button>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <section class="panel glass-card" id="about">
+        <div class="panel__title">
+          <p class="eyebrow">About</p>
+          <h3>把日常留给一点温柔</h3>
+        </div>
+        <p>
+          这里是我的小小主页，很简于个人。
+        </p>
+      </section>
+
+      <section class="panel glass-card" id="contact">
+        <div class="panel__title">
+          <p class="eyebrow">Contact</p>
+          <h3>联系方式</h3>
+        </div>
+        <div class="contact-list">
+          <div>邮箱：114514sanne@gmail.com</div>
+          <div>QQ：3494360936</div>
+        </div>
+      </section>
+
+      <section class="panel glass-card" id="music">
+        <div class="panel__title">
+          <p class="eyebrow">Music</p>
+          <h3>我的歌单！</h3>
+        </div>
+        <div class="music-card">
+          <div class="music-card__meta">
+            <p>播放器已固定在左下角浮窗，方便一边浏览一边听歌</p>
+          </div>
+        </div>
+      </section>
+            <section class="panel glass-card" id="comming soon">
+        <div class="panel__title">
+          <p class="eyebrow">Coming Soon...</p>
+          <h3>即将到来的内容</h3>
+        </div>
+        <div class="music-card">
+          <div class="music-card__meta">
+            <p>时间线</p>
+            <p>评论</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 Made with love</p>
+    </footer>
+
+    <!-- 使用 meting-js 自定义元素直接加载你的网易云歌单 -->
+    <meting-js server="netease" type="playlist" id="18237516462" fixed="true" autoplay="false" theme="#ff8dc7"></meting-js>
+
+    <script src="assets/js/APlayer.min.js"></script>
+    <script src="assets/js/Meting.min.js"></script>
+    <script>
+      console.log('diag: APlayer', typeof APlayer !== 'undefined');
+      console.log('diag: customElements', typeof customElements !== 'undefined');
+      console.log('diag: meting-js support', customElements && customElements.get('meting-js'));
+    </script>
+    <script>
+      // chat bubble show/close and avatar click
+      const chatBubble = document.getElementById('chatBubble');
+      const chatClose = document.getElementById('chatClose');
+      const heroAvatar = document.getElementById('heroAvatar');
+
+      // delay ensure not to annoy user
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (chatBubble) chatBubble.style.opacity = '1';
+        }, 900);
+      });
+
+      if (chatClose) chatClose.addEventListener('click', () => {
+        chatBubble.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        chatBubble.style.opacity = '0';
+        chatBubble.style.transform = 'translateY(8px)';
+      });
+
+      const floatingPlayer = document.getElementById('floatingPlayer');
+      const floatingToggle = document.getElementById('floatingToggle');
+
+      if (heroAvatar) {
+        heroAvatar.addEventListener('click', () => {
+          // pop animation
+          heroAvatar.classList.add('clicked');
+          setTimeout(() => heroAvatar.classList.remove('clicked'), 600);
+
+          // smooth scroll to about with slight delay to show animation
+          const about = document.getElementById('about');
+          if (about) {
+            setTimeout(() => {
+              const top = about.getBoundingClientRect().top + window.pageYOffset - 24;
+              window.scrollTo({ top, behavior: 'smooth' });
+            }, 160);
+          }
+        });
+      }
+
+      if (floatingToggle && floatingPlayer) {
+        floatingToggle.addEventListener('click', () => {
+          const collapsed = floatingPlayer.classList.toggle('collapsed');
+          floatingToggle.setAttribute('aria-label', collapsed ? '展开音乐播放器' : '收起音乐播放器');
+          floatingToggle.textContent = collapsed ? '▶' : '◀';
+        });
+      }
+
+      // Add animated behavior to all in-page anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (!href || href === '#') return;
+          const target = document.querySelector(href);
+          // visual feedback on the link
+          link.classList.add('link-click', 'anim');
+          setTimeout(() => link.classList.remove('anim'), 220);
+
+          if (target) {
+            e.preventDefault();
+            const top = target.getBoundingClientRect().top + window.pageYOffset - 24;
+            window.scrollTo({ top, behavior: 'smooth' });
+            // pulse highlight target
+            target.classList.add('section-pulse');
+            setTimeout(() => target.classList.remove('section-pulse'), 1000);
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
