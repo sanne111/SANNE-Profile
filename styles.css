@@ -22,7 +22,7 @@ body {
   background:
     linear-gradient(120deg, rgba(255, 141, 199, 0.12), transparent 30%),
     linear-gradient(300deg, rgba(138, 160, 255, 0.12), transparent 38%),
-    url("bochi.jpg") center/cover no-repeat;
+    url("###") center/cover no-repeat; /*这里填写背景图片地址*/
   overflow-x: hidden;
   position: relative;
   animation: fadeInBody 0.8s ease both;
